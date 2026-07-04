@@ -1,10 +1,42 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>FLR‑LIVE (12‑CUBE)</title>
+  <style>
+    body {
+      background: #111;
+      color: #eee;
+      font-family: monospace;
+      padding: 20px;
+    }
+    .block {
+      border: 1px solid #444;
+      padding: 20px;
+      margin-bottom: 20px;
+      background: #1a1a1a;
+    }
+    input, textarea {
+      width: 100%;
+      background: #222;
+      color: #0f0;
+      border: 1px solid #333;
+      padding: 10px;
+      font-family: monospace;
+    }
+  </style>
+</head>
+
+<body>
+
 <div class="block">
-  <h3>EVO‑LIVE (12‑CUBE)</h3>
-  <input id="cubeId" placeholder="Cube‑ID eingeben…">
-  <textarea id="cubeOut" rows="8" readonly></textarea>
+  <h3>FLR‑LIVE (12‑CUBE)</h3>
+  <input id="cubeId" placeholder="Cube‑ID eingeben… z.B. FLR1 oder EVO1">
+  <textarea id="cubeOut" rows="10" readonly></textarea>
 </div>
 
 <script>
+// --- EVO ALT (bleibt bestehen) ---
 const EVO_CUBES = Array.from({ length: 12 }, (_, i) => ({
   id: "EVO" + (i+1),
   info: {},
@@ -24,6 +56,47 @@ const EVO_CUBES = Array.from({ length: 12 }, (_, i) => ({
   }
 }));
 
+// --- FLR NEU ---
+const FLR_CUBES = Array.from({ length: 12 }, (_, i) => ({
+  id: "FLR" + (i+1),
+  info: {},
+  evo: 0,
+  eich: 0,
+  gen: 0,
+  fix3: [0,0,0],
+  µ: 1,
+  q: 0,
+  y: 0,
+  lage: {
+    pos12: i,
+    pos4: i % 4
+  },
+  item: {
+    name: "2UX‑Operator",
+    version: "1.0",
+    active: false
+  },
+  home: {
+    active: null,
+    pool6: [],
+    pool12: [],
+    pool24: [],
+    pool48: []
+  }
+}));
+
+// --- Dual‑Finder (EVO bleibt, FLR ist neu) ---
+function findCube(id) {
+  const evo = EVO_CUBES.find(c => c.id === id);
+  if (evo) return evo;
+
+  const flr = FLR_CUBES.find(c => c.id === id);
+  if (flr) return flr;
+
+  return null;
+}
+
+// --- Update‑Logik ---
 function techLive(cube, info) {
   cube.info = info;
   cube.evo++;
@@ -31,11 +104,17 @@ function techLive(cube, info) {
   cube.q += 0.1;
   cube.y += 0.1;
   cube.µ *= 1.01;
+
+  if (cube.lage) {
+    cube.lage.pos12 = (cube.lage.pos12 + 1) % 12;
+    cube.lage.pos4 = (cube.lage.pos4 + 1) % 4;
+  }
 }
 
+// --- UI‑Update ---
 function updateCube() {
   const id = document.getElementById("cubeId").value;
-  const cube = EVO_CUBES.find(c => c.id === id);
+  const cube = findCube(id);
   if (!cube) return;
 
   techLive(cube, { time: Date.now() });
@@ -46,3 +125,6 @@ function updateCube() {
 
 document.getElementById("cubeId").addEventListener("input", updateCube);
 </script>
+
+</body>
+</html>
