@@ -1,48 +1,57 @@
-# FLR – Functional Layer Record  
-Meta‑Layer für Operatoren, Positionen und 12‑CUBE‑Evolutionsdaten
+# FLR – Functional Layer Record
 
-FLR ist der zentrale Meta‑Speicher des Systems.  
-Es verwaltet Operator‑Items, Lage‑Daten, Evolutionswerte und Pool‑Strukturen.  
-FLR ersetzt die frühere EVO‑LIVE‑Struktur, ohne sie zu zerstören:  
-EVO bleibt kompatibel, FLR erweitert das System.
+## Öffentlicher Zweck
+FLR bildet die öffentliche Meta‑Ebene der Trinity‑Struktur.  
+Es dient als sichtbarer Layer zur Dokumentation von Positionen, Items und Lage‑Informationen innerhalb der Public‑Umgebung.
 
----
+## Argumenteria‑Rahmen
+FLR folgt dem Argumenteria‑Prinzip:
+1. Klarheit – eindeutige Meta‑Ebene.
+2. Struktur – geordnete Darstellung von Layer‑Informationen.
+3. Neutralität – keine internen Mechanismen oder Systemdetails.
+4. Nachvollziehbarkeit – klarer Zweck und klare Funktion.
+5. Integrität – konsistente Außendarstellung.
 
-## FLR‑CUBE (12‑System)
+## 7SINN‑Relevanz
+FLR erfüllt die 7SINN‑Kriterien:
+1. Verständlichkeit – FLR zeigt Meta‑Informationen klar und nachvollziehbar.
+2. Orientierung – dient als strukturierende Übersichtsebene.
+3. Nutzen – erleichtert die Zuordnung öffentlicher Daten.
+4. Struktur – ordnet Meta‑Elemente und Lage‑Bezüge.
+5. Neutralität – bleibt frei von Systeminternas.
+6. Integrität – wahrt die Logik der Public‑Ebene.
+7. Nachvollziehbarkeit – klare, stabile Darstellung.
 
-FLR erzeugt 12 Meta‑Cubes:
+## Modulbeschreibung
+Dieses Repository stellt die öffentliche FLR‑Ebene dar.  
+Es dokumentiert Meta‑Informationen wie Positionen, Items und Lage‑Bezüge innerhalb der Trinity‑Public‑Struktur, ohne interne Abläufe offenzulegen.
 
-- `FLR1` bis `FLR12`
-- jeder Cube besitzt eigene Evolutions‑ und Lage‑Daten
-- kompatibel mit alten EVO‑Cubes (`EVO1` bis `EVO12`)
+## FLR‑CUBE (Public‑Darstellung)
+FLR nutzt eine öffentliche Cube‑Struktur, um Meta‑Informationen sichtbar zu machen.  
+Diese Darstellung ist neutral gehalten und zeigt nur die öffentlich freigegebenen Felder.
 
-### Struktur eines FLR‑CUBE
+### Beispiel eines FLR‑CUBE (Public‑Version)
 
 ```json
 {
   "id": "FLR1",
   "info": {},
-  "evo": 0,
-  "eich": 0,
-  "gen": 0,
-  "fix3": [0, 0, 0],
-  "µ": 1,
-  "q": 0,
-  "y": 0,
+  "meta": {
+    "layer": 1,
+    "public": true
+  },
   "lage": {
     "pos12": 0,
     "pos4": 0
   },
   "item": {
-    "name": "2UX‑Operator",
+    "name": "Public-Item",
     "version": "1.0",
     "active": false
   },
   "home": {
     "active": null,
     "pool6": [],
-    "pool12": [],
-    "pool24": [],
-    "pool48": []
+    "pool12": []
   }
 }
